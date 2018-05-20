@@ -1,11 +1,11 @@
-# HummingBird
+# Pokedex
 
 ## Install
 
 ```bash
 
-git clone https://github.com/jrogatis/hummingbird.git
-cd hummingbird
+git clone https://github.com/jrogatis/pokemon.git
+cd pokemon
 npm install
 
 ```
@@ -15,5 +15,3 @@ npm install
 ```bash
 npm start
 ```
-
-This project was bootstrapped with [Create React App (https://github.com/facebookincubator/create-react-app).
