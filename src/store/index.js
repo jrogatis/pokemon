@@ -1,8 +1,7 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import { routerReducer, routerMiddleware } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
-
-import reduxPromise from 'redux-promise';
+import thunk from 'redux-thunk';
 import pokemons from '../reducers/reducerPokemons';
 import pokemon from '../reducers/reducerPokemon';
 
@@ -23,9 +22,9 @@ const composeEnhancers =
 let middlewares;
 if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
   const logger = require('redux-logger').default;
-  middlewares = [routeMiddleware, logger, reduxPromise];
+  middlewares = [routeMiddleware, logger, thunk];
 } else {
-  middlewares = [routeMiddleware, reduxPromise];
+  middlewares = [routeMiddleware, thunk];
 }
 
 const store = createStore(combReducers, composeEnhancers(applyMiddleware(...middlewares)));

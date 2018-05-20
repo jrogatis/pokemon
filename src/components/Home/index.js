@@ -5,7 +5,7 @@ import { Grid, Paper, Typography } from '@material-ui/core';
 import { connect } from 'react-redux';
 import GridList from '@material-ui/core/GridList';
 
-import { isFetchingPokemons, requestPokemons } from '../../actions';
+import { loadPokemons } from '../../actions';
 import CardPokemon from '../CardPokemon';
 import styles from './indexStyles';
 import CustomAppBar from './CustomAppBar';
@@ -22,8 +22,7 @@ class FrontPage extends Component {
   }
 
   componentDidMount() {
-    this.props.isFetchingPokemons();
-    this.props.requestPokemons();
+    this.props.loadPokemons();
   }
 
   handleChange = name => event => {
@@ -78,7 +77,4 @@ const mapStateToProps = ({ pokemons }) => ({
   pokemons,
 });
 
-export default connect(mapStateToProps, {
-  requestPokemons,
-  isFetchingPokemons,
-})(withStyles(styles)(FrontPage));
+export default connect(mapStateToProps, { loadPokemons })(withStyles(styles)(FrontPage));

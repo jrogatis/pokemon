@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
-import { requestPokemon, isFetchingPokemon } from '../../actions';
+import { loadPokemon } from '../../actions';
 import Loading from '../Loading';
 
 const styles = theme => ({
@@ -31,8 +31,7 @@ const styles = theme => ({
 class PokemonDetails extends PureComponent {
   constructor(props) {
     super(props);
-    props.isFetchingPokemon();
-    props.requestPokemon(props.match.params.name);
+    props.loadPokemon(props.match.params.name);
   }
   render() {
     const {
@@ -99,6 +98,5 @@ const mapStateToProps = ({ pokemon }) => ({
 });
 
 export default connect(mapStateToProps, {
-  isFetchingPokemon,
-  requestPokemon,
+  loadPokemon,
 })(withStyles(styles)(PokemonDetails));
