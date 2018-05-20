@@ -6,6 +6,7 @@ export const REQUEST_POKEMON = 'REQUEST_POKEMON';
 export const FETCH_POKEMONS = 'FETCH_POKEMONS';
 export const FETCH_POKEMON = 'FETCH_POKEMON';
 export const REQUEST_LIST_POKEMONS = 'REQUEST_LIST_POKEMONS';
+export const REJECT_POKEMON = 'REJECT_POKEMON';
 
 export const isFetchingPokemons = payload => {
   return {
@@ -35,8 +36,15 @@ export const requestPokemons = async payload => {
 export const requestPokemon = async payload => {
   const url = `${ROOT_URL}/${payload}/`;
   const result = await axios.get(url);
+  const { data, status } = result;
+  if ([200, 201].includes(status)) {
+    return {
+      type: REQUEST_POKEMON,
+      payload: { pokemon: data, isLoadingPokemons: false },
+    };
+  }
   return {
-    type: REQUEST_POKEMON,
-    payload: { pokemon: result.data, isLoadingPokemons: false },
+    type: REJECT_POKEMON,
+    payload: {},
   };
 };

@@ -21,7 +21,7 @@ const composeEnhancers =
     : compose;
 
 let middlewares;
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
   const logger = require('redux-logger').default;
   middlewares = [routeMiddleware, logger, reduxPromise];
 } else {

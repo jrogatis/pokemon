@@ -48,7 +48,7 @@ class FrontPage extends Component {
           alignItems="center"
           className={classes.container}
           justify="center"
-          spacing={4}
+          spacing={8}
         >
           <Typography variant="display1" className={classes.subTitle} paragraph>
             Discover all about your adorable pokemon!
