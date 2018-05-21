@@ -2,15 +2,12 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import { routerReducer, routerMiddleware } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
 import thunk from 'redux-thunk';
-import pokemons from '../reducers/reducerPokemons';
-import pokemon from '../reducers/reducerPokemon';
+import reducers from '../reducers';
 
 const history = createHistory();
 const routeMiddleware = routerMiddleware(history);
-
 const combReducers = combineReducers({
-  pokemons,
-  pokemon,
+  ...reducers,
   router: routerReducer,
 });
 

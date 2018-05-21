@@ -11,8 +11,8 @@ class AppRouter extends PureComponent {
     return (
       <ConnectedRouter history={this.props.history}>
         <Switch>
+          <Route exact path="/" component={Home} />
           <Route path="/:name" component={PokemonDetails} />
-          <Route path="/" component={Home} />
           <Route component={NoMatch} />
         </Switch>
       </ConnectedRouter>

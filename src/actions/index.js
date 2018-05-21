@@ -3,19 +3,24 @@ import axios from 'axios';
 const ROOT_URL = 'https://pokeapi.co/api/v2/pokemon';
 
 export const REQUEST_POKEMON = 'REQUEST_POKEMON';
-export const FULLFILL_POKEMON = 'FULLFILL_POKEMONS';
-export const REJECT_POKEMON = 'REJECT_POKEMONS';
+export const FULLFILL_POKEMON = 'FULLFILL_POKEMON';
+export const REJECT_POKEMON = 'REJECT_POKEMON';
 
 export const REQUEST_POKEMONS = 'REQUEST_POKEMONS';
 export const FULLFILL_POKEMONS = 'FULLFILL_POKEMONS';
 export const REJECT_POKEMONS = 'REJECT_POKEMONS';
 
-const fetchPokemons = async () => {
-  return axios.get(`${ROOT_URL}/?limit=40`);
-};
+export const REQUEST_PAG_POKEMONS = 'REQUEST_PAG_POKEMONS';
+export const FULLFILL_PAG_POKEMONS = 'FULLFILL_PAG_POKEMONS';
 
-const fetchPokemon = async name => {
-  return axios.get(`${ROOT_URL}/${name}/`);
+const fetch = async (name, offset = 0) => {
+  let url;
+  if (name) {
+    url = `${ROOT_URL}/${name}/`;
+  } else {
+    url = `${ROOT_URL}/?limit=40&offset=${offset}`;
+  }
+  return axios.get(url);
 };
 
 const requestPokemons = () => {
@@ -37,7 +42,7 @@ const fullfillPokemons = result => {
 const loadPokemons = () => {
   return async dispatch => {
     dispatch(requestPokemons);
-    const result = await fetchPokemons();
+    const result = await fetch();
     return dispatch(fullfillPokemons(result));
   };
 };
@@ -59,10 +64,23 @@ const fullfillPokemon = result => {
 const loadPokemon = name => {
   return async dispatch => {
     dispatch(requestPokemon);
-    const result = await fetchPokemon(name);
-    console.log('result', result);
+    const result = await fetch(name);
     return dispatch(fullfillPokemon(result));
   };
 };
 
-export { loadPokemons, loadPokemon };
+const paginatePokemon = name => {
+  return async (dispatch, getState) => {
+    await dispatch(requestPokemons);
+    const {
+      pokemons: {
+        pokemons: { list },
+      },
+    } = getState();
+    const offset = list.length;
+    const result = await fetch('', offset);
+    result.data.results.unshift(...list);
+    return dispatch(fullfillPokemons(result));
+  };
+};
+export { loadPokemons, loadPokemon, paginatePokemon };

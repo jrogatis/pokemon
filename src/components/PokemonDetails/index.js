@@ -28,21 +28,38 @@ const styles = theme => ({
   },
 });
 
+const FistStats = props => {
+  const {
+    classes,
+    pokemon: {
+      pokemon: { weight, height, base_experience },
+    },
+  } = props;
+
+  return [{ Weight: weight }, { Height: height }, { 'Base Exp': base_experience }].map(stat => (
+    <Grid item key={Object.keys(stat)[0]} xs={4}>
+      <Typography className={classes.properties} align="center">
+        {Object.keys(stat)[0]}: <span>{Object.values(stat)[0]}</span>
+      </Typography>
+    </Grid>
+  ));
+};
+
 class PokemonDetails extends PureComponent {
   constructor(props) {
     super(props);
     props.loadPokemon(props.match.params.name);
   }
+
   render() {
     const {
       classes,
       pokemon: { isLoadingPokemon },
     } = this.props;
-
     if (!isLoadingPokemon) {
       const {
         pokemon: {
-          pokemon: { name, sprites, stats, weight, height, base_experience },
+          pokemon: { name, sprites, stats },
         },
       } = this.props;
       return (
@@ -63,15 +80,7 @@ class PokemonDetails extends PureComponent {
               ))}
             </Grid>
             <Grid container direction="row" justify="center" alignItems="flex-start">
-              {[{ Weight: weight }, { Height: height }, { 'Base Exp': base_experience }].map(
-                stat => (
-                  <Grid item key={Object.keys(stat)[0]} xs={4}>
-                    <Typography className={classes.properties} align="center">
-                      {Object.keys(stat)[0]}: <span>{Object.values(stat)[0]}</span>
-                    </Typography>
-                  </Grid>
-                ),
-              )}
+              {FistStats(this.props)}
             </Grid>
             <Grid container direction="row" justify="center" alignItems="flex-start">
               {stats.map(stat => (
